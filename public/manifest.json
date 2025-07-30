@@ -1,0 +1,30 @@
+{
+  "name": "Photo Gallery - 김미소 작가",
+  "short_name": "Photo Gallery",
+  "description": "아름다운 순간들을 담은 사진 컬렉션",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#667eea",
+  "theme_color": "#667eea",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["photo", "entertainment", "lifestyle"],
+  "lang": "ko",
+  "dir": "ltr",
+  "scope": "/",
+  "screenshots": [
+    {
+      "src": "/vite.svg",
+      "sizes": "1280x720",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
+    }
+  ]
+} 

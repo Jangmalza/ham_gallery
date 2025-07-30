@@ -1,7 +1,5 @@
 # Photo Gallery - 프로페셔널 사진 갤러리
 
-김미소 작가의 아름다운 순간들을 담은 **모던한 웹 갤러리**입니다.
-
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![React](https://img.shields.io/badge/React-18.3.1-blue.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue.svg)

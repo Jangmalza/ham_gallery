@@ -1,4 +1,4 @@
-# 🎨 Photo Gallery - 프로페셔널 사진 갤러리
+# Photo Gallery - 프로페셔널 사진 갤러리
 
 김미소 작가의 아름다운 순간들을 담은 **모던한 웹 갤러리**입니다.
 
@@ -7,33 +7,33 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue.svg)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.1.11-blue.svg)
 
-## ✨ 주요 기능
+## 주요 기능
 
-### 🖼️ **갤러리 기능**
+### **갤러리 기능**
 - **반응형 그리드 레이아웃** - 모든 디바이스에서 완벽한 표시
 - **무한 스크롤** - 자연스러운 이미지 로딩
 - **이미지 모달** - 큰 화면으로 상세 보기
 - **원클릭 다운로드** - 고해상도 이미지 저장
 
-### 🔍 **검색 & 필터링**
+### **검색 & 필터링**
 - **실시간 검색** - 제목, 설명, 작가, 위치 기반 검색
 - **태그 필터링** - 카테고리별 사진 분류
 - **검색 결과 하이라이트** - 활성 필터 표시
 - **빠른 초기화** - 원클릭으로 필터 리셋
 
-### 🎯 **사용자 경험**
+### **사용자 경험**
 - **Error Boundary** - 안정적인 에러 처리
 - **로딩 애니메이션** - 부드러운 사용자 피드백
 - **접근성 지원** - 키보드 네비게이션 및 ARIA 레이블
 - **PWA 지원** - 앱과 같은 사용 경험
 
-### 🚀 **성능 최적화**
+### **성능 최적화**
 - **이미지 지연 로딩** - 성능 향상
 - **메모이제이션** - React 최적화 기법 적용
 - **번들 최적화** - 최소한의 크기 (JS: 176KB, CSS: 9KB)
 - **SEO 최적화** - 검색 엔진 친화적
 
-## 🛠️ 기술 스택
+## 기술 스택
 
 ### **Frontend**
 - **React 18** - 최신 React 기능 활용
@@ -47,7 +47,7 @@
 - **Error Boundary** - 에러 처리 시스템
 - **Logger** - 통합 로깅 시스템
 
-## 📦 설치 및 실행
+## 설치 및 실행
 
 ### **필수 요구사항**
 - Node.js 18+ 
@@ -82,7 +82,7 @@ npm run preview
 npm run lint
 ```
 
-## 📁 프로젝트 구조
+## 프로젝트 구조
 
 ```
 photo-gallery/
@@ -114,7 +114,7 @@ photo-gallery/
 └── package.json              # 프로젝트 설정
 ```
 
-## 🎨 주요 컴포넌트
+## 주요 컴포넌트
 
 ### **GalleryGrid**
 - 이미지 그리드 표시
@@ -134,7 +134,7 @@ photo-gallery/
 - 개발 모드 디버깅 정보
 - 자동 에러 로깅
 
-## 🔧 커스터마이징
+## 커스터마이징
 
 ### **이미지 데이터 변경**
 ```typescript
@@ -187,42 +187,42 @@ module.exports = {
 }
 ```
 
-## 🔍 SEO 최적화
+## SEO 최적화
 
 - **메타 태그** - 완전한 SEO 메타데이터
 - **Open Graph** - 소셜 미디어 공유 최적화
 - **JSON-LD** - 구조화된 데이터
 - **시맨틱 HTML** - 검색 엔진 친화적 마크업
 
-## 📱 PWA 지원
+## PWA 지원
 
 - **오프라인 지원** - 서비스 워커 (계획됨)
 - **앱 설치** - 홈 화면에 추가 가능
 - **반응형 디자인** - 모든 디바이스 지원
 - **빠른 로딩** - 캐싱 최적화
 
-## 🐛 에러 처리
+## 에러 처리
 
 - **Error Boundary** - React 컴포넌트 에러 캐치
 - **전역 에러 핸들러** - JavaScript 에러 처리
 - **로깅 시스템** - 자동 에러 로깅
 - **사용자 피드백** - 친화적인 에러 메시지
 
-## 🚀 성능 최적화
+## 성능 최적화
 
 - **이미지 지연 로딩** - Intersection Observer 활용
 - **무한 스크롤** - 효율적인 메모리 사용
 - **메모이제이션** - React.memo, useMemo, useCallback
 - **번들 분할** - 코드 스플리팅 (계획됨)
 
-## 📈 성능 메트릭
+## 성능 메트릭
 
 - **번들 크기**: JS 176KB (gzip: 55KB), CSS 9KB (gzip: 2KB)
 - **보안**: 취약점 0개
 - **접근성**: WCAG 2.1 AA 준수
 - **PWA**: Lighthouse 점수 90+ (계획됨)
 
-## 🤝 기여하기
+## 기여하기
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -230,11 +230,11 @@ module.exports = {
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 라이선스
+## 라이선스
 
 MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 
-## 👤 작가
+## 작가
 
 **김미소** - 자연과 일상의 아름다운 순간들을 담는 사진작가
 
@@ -242,7 +242,7 @@ MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 - 인스타그램: [@photographer_miso](https://instagram.com/photographer_miso)
 - 웹사이트: [misokim.photography](https://misokim.photography)
 
-## 🙏 감사의 말
+## 감사의 말
 
 - [Unsplash](https://unsplash.com) - 아름다운 무료 이미지 제공
 - [Tailwind CSS](https://tailwindcss.com) - 훌륭한 CSS 프레임워크

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import Masonry from 'react-masonry-css';
 import type { GalleryImage } from '../data/galleryData';
 import { downloadImage } from '../utils/downloadImage';
 
@@ -86,6 +87,13 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
     }
   };
 
+  const breakpointColumnsObj = {
+    default: 4,
+    1280: 3,
+    1024: 2,
+    640: 1
+  };
+
   return (
     <>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -107,8 +115,12 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
           </p>
         </div>
 
-        {/* 개선된 갤러리 그리드 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {/* Masonry 갤러리 그리드 */}
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
           {images.map((image, index) => {
             const isImageLoading = imageLoadingStates[image.id] !== false;
             const hasImageError = imageErrorStates[image.id];
@@ -118,7 +130,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
             return (
               <div
                 key={image.id}
-                className="group cursor-pointer animate-fade-in"
+                className="group cursor-pointer animate-fade-in mb-6"
                 style={{
                   animationDelay: `${index * 0.1}s`
                 }}
@@ -130,7 +142,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
                   isHovered ? 'transform scale-[1.03] shadow-green-200/50' : ''
                 }`}>
                   {/* 이미지 컨테이너 */}
-                  <div className="relative aspect-[4/5] overflow-hidden">
+                  <div className="relative overflow-hidden">
                     {/* 로딩 스켈레톤 */}
                     {isImageLoading && (
                       <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse">
@@ -142,7 +154,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
                     
                     {/* 에러 상태 */}
                     {hasImageError && (
-                      <div className="w-full h-full bg-gray-100 flex flex-col items-center justify-center text-gray-500">
+                      <div className="w-full h-full bg-gray-100 flex flex-col items-center justify-center text-gray-500 aspect-[4/5]">
                         <svg className="w-16 h-16 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.664-.833-2.464 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
                         </svg>
@@ -155,7 +167,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
                       <img
                         src={image.url}
                         alt={image.title}
-                        className={`w-full h-full object-cover transition-all duration-700 ${
+                        className={`w-full h-auto object-cover transition-all duration-700 ${
                           isImageLoading ? 'opacity-0' : 'opacity-100'
                         } ${isHovered ? 'scale-110' : 'scale-100'}`}
                         loading="lazy"
@@ -257,7 +269,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
               </div>
             );
           })}
-        </div>
+        </Masonry>
 
         {/* 로딩 스피너 */}
         {loading && (

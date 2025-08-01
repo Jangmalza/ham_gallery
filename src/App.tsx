@@ -1,4 +1,5 @@
 
+
 import { useState, useMemo } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
 import ProfileHeader from './components/ProfileHeader';
@@ -10,7 +11,6 @@ import { useInfiniteScroll } from './hooks/useInfiniteScroll';
 
 function App() {
   const { images, loading, hasMore, loadMore } = useGallery();
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
   // 무한 스크롤 훅 사용
@@ -21,31 +21,15 @@ function App() {
     threshold: 300
   });
 
-  // 검색 및 필터링된 이미지들
+  // 필터링된 이미지들
   const filteredImages = useMemo(() => {
-    let filtered = images;
-
-    // 검색 필터링
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase().trim();
-      filtered = filtered.filter(image => 
-        image.title.toLowerCase().includes(query) ||
-        image.description?.toLowerCase().includes(query) ||
-        image.photographer?.toLowerCase().includes(query) ||
-        image.location?.toLowerCase().includes(query) ||
-        image.tags?.some(tag => tag.toLowerCase().includes(query))
-      );
+    if (!selectedTag) {
+      return images;
     }
-
-    // 태그 필터링
-    if (selectedTag) {
-      filtered = filtered.filter(image => 
-        image.tags?.includes(selectedTag)
-      );
-    }
-
-    return filtered;
-  }, [images, searchQuery, selectedTag]);
+    return images.filter(image => 
+      image.tags?.includes(selectedTag)
+    );
+  }, [images, selectedTag]);
 
   // 사용 가능한 모든 태그 수집
   const availableTags = useMemo(() => {
@@ -55,11 +39,6 @@ function App() {
     });
     return Array.from(tagSet).sort();
   }, [images]);
-
-  // 검색 핸들러
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-  };
 
   // 태그 필터 핸들러
   const handleTagFilter = (tag: string | null) => {
@@ -97,10 +76,6 @@ function App() {
                     <div className="font-bold text-2xl text-white">{availableTags.length}+</div>
                     <div className="text-green-200">태그</div>
                   </div>
-                  <div className="text-center">
-                    <div className="font-bold text-2xl text-white">{filteredImages.length}</div>
-                    <div className="text-green-200">검색 결과</div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -120,11 +95,9 @@ function App() {
 
           {/* Search and Filter */}
           <SearchAndFilter
-            onSearch={handleSearch}
             onTagFilter={handleTagFilter}
             availableTags={availableTags}
             currentTag={selectedTag}
-            searchQuery={searchQuery}
           />
 
           {/* Gallery Grid */}
@@ -133,7 +106,7 @@ function App() {
           {/* Infinite Scroll Target */}
           <div ref={targetRef} className="h-1" aria-hidden="true" />
 
-          {/* 검색 결과가 없을 때 */}
+          {/* 필터 결과가 없을 때 */}
           {filteredImages.length === 0 && !loading && images.length > 0 && (
             <div className="text-center py-16">
               <div className="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center">
@@ -141,19 +114,11 @@ function App() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">검색 결과가 없습니다</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">해당 태그의 사진이 없습니다</h3>
               <p className="text-gray-600 max-w-md mx-auto mb-6">
-                다른 키워드로 검색하거나 필터를 변경해보세요.
+                다른 태그를 선택하거나 필터를 초기화해보세요.
               </p>
               <div className="flex justify-center gap-3">
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-colors"
-                  >
-                    검색 초기화
-                  </button>
-                )}
                 {selectedTag && (
                   <button
                     onClick={() => setSelectedTag(null)}

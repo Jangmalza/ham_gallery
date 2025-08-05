@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import type { ReactNode } from 'react';
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode; // Make children optional
   fallback?: ReactNode;
 }
 

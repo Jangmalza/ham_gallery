@@ -12,7 +12,16 @@ export const useGallery = () => {
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
-
+  const refetch = useCallback(() => {
+    setLoading(true);
+    // API 재호출을 시뮬레이션합니다.
+    setTimeout(() => {
+      setImages(galleryImages.slice(0, ITEMS_PER_PAGE));
+      setCurrentPage(1);
+      setHasMore(true);
+      setLoading(false);
+    }, 500);
+  }, []);
 
   const loadMore = useCallback(() => {
     if (loading || !hasMore) return;
@@ -57,8 +66,9 @@ export const useGallery = () => {
     images,
     loading,
     hasMore,
-    loadMore
-  }), [images, loading, hasMore, loadMore]);
+    loadMore,
+    refetch
+  }), [images, loading, hasMore, loadMore, refetch]);
 
   return galleryState;
 };

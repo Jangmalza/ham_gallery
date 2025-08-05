@@ -16,8 +16,6 @@ export const profileData: ProfileData = {
   profileImage: "https://images.unsplash.com/photo-1494790108755-2616b612b13c?w=300&h=300&fit=crop&crop=face",
   socialLinks: {
     instagram: "https://instagram.com/photographer_miso",
-    website: "https://misokim.photography",
-    email: "contact@misokim.com",
-    twitter: "https://twitter.com/photographer_miso"
+    email: "contact@misokim.com"
   }
 };

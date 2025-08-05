@@ -1,15 +1,14 @@
-
-
 import { useState, useMemo } from 'react';
-import ErrorBoundary from './components/ErrorBoundary';
-import ProfileHeader from './components/ProfileHeader';
-import GalleryGrid from './components/GalleryGrid';
-import SearchAndFilter from './components/SearchAndFilter';
-import { profileData } from './data/profileData';
-import { useGallery } from './hooks/useGallery';
-import { useInfiniteScroll } from './hooks/useInfiniteScroll';
+import ErrorBoundary from '../components/ErrorBoundary';
+import ProfileHeader from '../components/ProfileHeader';
+import GalleryGrid from '../components/GalleryGrid';
+import SearchAndFilter from '../components/SearchAndFilter';
+import { profileData } from '../data/profileData';
+import { useGallery } from '../hooks/useGallery';
+import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
+import { Link } from 'react-router-dom';
 
-function App() {
+function HomePage() {
   const { images, loading, hasMore, loadMore } = useGallery();
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
@@ -225,6 +224,9 @@ function App() {
                   <p className="text-gray-400 text-xs">
                     이 갤러리의 모든 사진은 작가의 저작물입니다.
                   </p>
+                  <Link to="/admin" className="text-xs text-gray-400 hover:text-green-600 transition-colors">
+                    Admin Page
+                  </Link>
                 </div>
               </div>
             </div>
@@ -235,4 +237,4 @@ function App() {
   );
 }
 
-export default App;
+export default HomePage;

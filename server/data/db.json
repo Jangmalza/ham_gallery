@@ -1,0 +1,26 @@
+{
+  "photos": [
+    {
+      "id": "1",
+      "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=1200&fit=crop&q=80",
+      "title": "Serene Mountain Lake",
+      "description": "Crystal clear alpine lake reflecting the majestic mountains at golden hour",
+      "tags": ["nature", "landscape", "mountain", "reflection"],
+      "width": 800,
+      "height": 1200,
+      "photographer": "John Anderson",
+      "location": "Swiss Alps"
+    },
+    {
+      "id": "2", 
+      "url": "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800&h=600&fit=crop&q=80",
+      "title": "Ocean Waves",
+      "description": "Powerful waves crashing against dramatic coastal cliffs",
+      "tags": ["ocean", "waves", "seascape", "power"],
+      "width": 800,
+      "height": 600,
+      "photographer": "Maria Costa",
+      "location": "Big Sur, California"
+    }
+  ]
+}

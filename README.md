@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![React](https://img.shields.io/badge/React-18.3.1-blue.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue.svg)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.1.11-blue.svg)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4.17-blue.svg)
 
 ## 주요 기능
 
@@ -234,7 +234,7 @@ MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 
 ## 작가
 
-**김미소** - 자연과 일상의 아름다운 순간들을 담는 사진작가
+**장현우** - 자연과 일상의 아름다운 순간들을 담는 사진작가
 
 - 이메일: contact@misokim.com
 - 인스타그램: [@photographer_miso](https://instagram.com/photographer_miso)

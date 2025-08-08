@@ -15,6 +15,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [hoveredImage, setHoveredImage] = useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   // 이미지 로드 완료 처리
   const handleImageLoad = (imageId: string) => {
@@ -80,6 +81,13 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
     }
   }, [selectedImage]);
 
+  // 모달 오픈 시 닫기 버튼 포커스
+  useEffect(() => {
+    if (selectedImage && closeButtonRef.current) {
+      closeButtonRef.current.focus();
+    }
+  }, [selectedImage]);
+
   // 모달 외부 클릭으로 닫기
   const handleModalClick = (e: React.MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
@@ -97,23 +105,6 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
   return (
     <>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* 갤러리 헤더 */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text text-transparent">
-              Visual Stories
-            </h2>
-          </div>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            세상의 아름다운 순간들을 담은 특별한 컬렉션입니다. 
-            <span className="font-medium text-green-600"> 클릭하여 자세히 보거나 다운로드하세요</span>
-          </p>
-        </div>
 
         {/* Masonry 갤러리 그리드 */}
         <Masonry
@@ -130,7 +121,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
             return (
               <div
                 key={image.id}
-                className="group cursor-pointer animate-fade-in mb-6"
+                className="group cursor-pointer mb-6"
                 style={{
                   animationDelay: `${index * 0.1}s`
                 }}
@@ -171,13 +162,16 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
                           isImageLoading ? 'opacity-0' : 'opacity-100'
                         } ${isHovered ? 'scale-110' : 'scale-100'}`}
                         loading="lazy"
+                        decoding="async"
+                        width={image.width}
+                        height={image.height}
                         onLoad={() => handleImageLoad(image.id)}
                         onError={() => handleImageError(image.id)}
                       />
                     )}
 
                     {/* 호버 오버레이 */}
-                    <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-300 ${
+                    <div className={`absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent transition-all duration-300 ${
                       isHovered ? 'opacity-100' : 'opacity-0'
                     }`}>
                       {/* 액션 버튼들 */}
@@ -302,9 +296,12 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
       </div>
 
       {/* 이미지 상세 모달 */}
-      {selectedImage && (
+        {selectedImage && (
         <div 
-          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="image-modal-title"
           onClick={handleModalClick}
         >
           <div 
@@ -315,7 +312,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
             <div className="absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-black/50 to-transparent p-6">
               <div className="flex justify-between items-start">
                 <div className="text-white">
-                  <h2 className="text-2xl font-bold mb-1">{selectedImage.title}</h2>
+                  <h2 id="image-modal-title" className="text-2xl font-bold mb-1">{selectedImage.title}</h2>
                   {selectedImage.photographer && (
                     <p className="text-white/90">by {selectedImage.photographer}</p>
                   )}
@@ -338,6 +335,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
                     )}
                   </button>
                   <button
+                    ref={closeButtonRef}
                     onClick={closeModal}
                     className="w-12 h-12 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
                   >
@@ -353,7 +351,10 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
             <img
               src={selectedImage.url}
               alt={selectedImage.title}
-              className="w-full h-auto max-h-[70vh] object-contain"
+                className="w-full h-auto max-h-[70vh] object-contain"
+                decoding="async"
+                width={selectedImage.width}
+                height={selectedImage.height}
             />
 
             {/* 모달 하단 정보 */}

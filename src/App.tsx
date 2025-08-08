@@ -12,6 +12,7 @@ import { useInfiniteScroll } from './hooks/useInfiniteScroll';
 function App() {
   const { images, loading, hasMore, loadMore } = useGallery();
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   // 무한 스크롤 훅 사용
   const { targetRef } = useInfiniteScroll({
@@ -21,15 +22,21 @@ function App() {
     threshold: 300
   });
 
-  // 필터링된 이미지들
+  // 필터링된 이미지들 (태그 + 텍스트 검색)
   const filteredImages = useMemo(() => {
-    if (!selectedTag) {
-      return images;
+    let result = images;
+    if (selectedTag) {
+      result = result.filter(image => image.tags?.includes(selectedTag));
     }
-    return images.filter(image => 
-      image.tags?.includes(selectedTag)
-    );
-  }, [images, selectedTag]);
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(image => {
+        const fields = [image.title, image.description, image.photographer, image.location].filter(Boolean) as string[];
+        return fields.some(text => text.toLowerCase().includes(q));
+      });
+    }
+    return result;
+  }, [images, selectedTag, searchQuery]);
 
   // 사용 가능한 모든 태그 수집
   const availableTags = useMemo(() => {
@@ -48,43 +55,15 @@ function App() {
   return (
     <ErrorBoundary>
       <div className="min-h-screen">
-        {/* Hero Section */}
-        <header 
-          className="relative bg-gradient-to-br from-green-600 via-emerald-600 to-green-700 text-white"
-          style={{
-            background: 'linear-gradient(135deg, #10b981 0%, #047857 100%)',
-          }}
-        >
-          <div className="absolute inset-0 bg-black/20"></div>
-          <div className="relative z-10">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-              <div className="text-center">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-green-100">
-                  Photo Gallery
-                </h1>
-                <p className="text-lg sm:text-xl md:text-2xl text-green-100 max-w-3xl mx-auto leading-relaxed px-4 mb-6">
-                  아름다운 순간들을 담은 사진 컬렉션을 만나보세요
-                </p>
-                
-                {/* 통계 정보 */}
-                <div className="flex justify-center gap-8 text-sm sm:text-base">
-                  <div className="text-center">
-                    <div className="font-bold text-2xl text-white">{images.length}+</div>
-                    <div className="text-green-200">사진</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="font-bold text-2xl text-white">{availableTags.length}+</div>
-                    <div className="text-green-200">태그</div>
-                  </div>
-                </div>
-              </div>
+        {/* Header - Minimal */}
+        <header className="bg-white border-b">
+          <div className="max-w-6xl mx-auto px-4 py-10 text-center">
+            <h1 className="text-4xl font-bold text-gray-900">Photo Gallery</h1>
+            <p className="mt-2 text-gray-500">아름다운 순간들을 담은 사진 컬렉션</p>
+            <div className="mt-4 flex justify-center gap-6 text-sm text-gray-500">
+              <div><span className="font-semibold text-gray-900">{images.length}+ </span>사진</div>
+              <div><span className="font-semibold text-gray-900">{availableTags.length}</span> 태그</div>
             </div>
-          </div>
-          {/* Wave decoration */}
-          <div className="absolute bottom-0 left-0 right-0">
-            <svg viewBox="0 0 1440 120" className="w-full h-8 sm:h-12 fill-gray-50">
-              <path d="M0,32L48,42.7C96,53,192,75,288,80C384,85,480,75,576,64C672,53,768,43,864,48C960,53,1056,75,1152,85.3C1248,96,1344,96,1392,96L1440,96L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
-            </svg>
           </div>
         </header>
 
@@ -98,6 +77,8 @@ function App() {
             onTagFilter={handleTagFilter}
             availableTags={availableTags}
             currentTag={selectedTag}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
           />
 
           {/* Gallery Grid */}
@@ -114,7 +95,7 @@ function App() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">해당 태그의 사진이 없습니다</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">해당 조건의 사진이 없습니다</h3>
               <p className="text-gray-600 max-w-md mx-auto mb-6">
                 다른 태그를 선택하거나 필터를 초기화해보세요.
               </p>
@@ -125,6 +106,14 @@ function App() {
                     className="px-6 py-3 bg-emerald-600 text-white rounded-xl font-medium hover:bg-emerald-700 transition-colors"
                   >
                     필터 초기화
+                  </button>
+                )}
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+                  >
+                    검색 초기화
                   </button>
                 )}
               </div>

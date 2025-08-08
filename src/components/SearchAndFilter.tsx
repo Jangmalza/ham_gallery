@@ -4,19 +4,32 @@ interface SearchAndFilterProps {
   onTagFilter: (tag: string | null) => void;
   availableTags: string[];
   currentTag: string | null;
+  searchQuery: string;
+  onSearchChange: (q: string) => void;
 }
 
 const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
   onTagFilter,
   availableTags,
   currentTag,
+  searchQuery,
+  onSearchChange,
 }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-      <div className="bg-white rounded-2xl shadow-lg p-4 flex justify-center">
-        <div className="relative">
+      <div className="bg-white border rounded-2xl p-4">
+        <div className="flex items-center gap-3 justify-between">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="제목, 설명, 작가, 위치 검색"
+            className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 outline-none text-sm"
+            aria-label="텍스트 검색"
+          />
+          <div className="relative">
           <button
             onClick={() => setIsFilterOpen(!isFilterOpen)}
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
@@ -72,6 +85,7 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
               </div>
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>

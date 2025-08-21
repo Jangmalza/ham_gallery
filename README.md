@@ -236,10 +236,6 @@ MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 
 **장현우** - 자연과 일상의 아름다운 순간들을 담는 사진작가
 
-- 이메일: contact@misokim.com
-- 인스타그램: [@photographer_miso](https://instagram.com/photographer_miso)
-- 웹사이트: [misokim.photography](https://misokim.photography)
-
 ## 감사의 말
 
 - [Unsplash](https://unsplash.com) - 아름다운 무료 이미지 제공

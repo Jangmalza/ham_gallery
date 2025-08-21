@@ -1,24 +1,38 @@
 
 
-import { useState, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
 import ProfileHeader from './components/ProfileHeader';
 import GalleryGrid from './components/GalleryGrid';
 import SearchAndFilter from './components/SearchAndFilter';
 import { profileData } from './data/profileData';
-import { useGallery } from './hooks/useGallery';
+import { useGalleryStore } from './store/galleryStore';
 import { useInfiniteScroll } from './hooks/useInfiniteScroll';
 
 function App() {
-  const { images, loading, hasMore, loadMore } = useGallery();
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const {
+    images,
+    loading,
+    hasMore,
+    fetchInitialImages,
+    fetchMoreImages,
+    selectedTag,
+    searchQuery,
+    setTag,
+    setSearchQuery
+  } = useGalleryStore();
+
+  useEffect(() => {
+    if (images.length === 0) {
+      fetchInitialImages();
+    }
+  }, [fetchInitialImages, images.length]);
 
   // 무한 스크롤 훅 사용
   const { targetRef } = useInfiniteScroll({
     hasMore,
     loading,
-    onLoadMore: loadMore,
+    onLoadMore: fetchMoreImages,
     threshold: 300
   });
 
@@ -47,11 +61,6 @@ function App() {
     return Array.from(tagSet).sort();
   }, [images]);
 
-  // 태그 필터 핸들러
-  const handleTagFilter = (tag: string | null) => {
-    setSelectedTag(tag);
-  };
-
   return (
     <ErrorBoundary>
       <div className="min-h-screen">
@@ -74,7 +83,7 @@ function App() {
 
           {/* Search and Filter */}
           <SearchAndFilter
-            onTagFilter={handleTagFilter}
+            onTagFilter={setTag}
             availableTags={availableTags}
             currentTag={selectedTag}
             searchQuery={searchQuery}
@@ -102,7 +111,7 @@ function App() {
               <div className="flex justify-center gap-3">
                 {selectedTag && (
                   <button
-                    onClick={() => setSelectedTag(null)}
+                    onClick={() => setTag(null)}
                     className="px-6 py-3 bg-emerald-600 text-white rounded-xl font-medium hover:bg-emerald-700 transition-colors"
                   >
                     필터 초기화

@@ -8,6 +8,17 @@ interface GalleryGridProps {
   loading: boolean;
 }
 
+
+// Helper function to generate srcset for responsive images
+const generateSrcSet = (url: string) => {
+  const widths = [400, 800, 1200, 1600];
+  // remove any existing width, height, and quality parameters
+  const baseUrl = url.split('?')[0];
+  return widths
+    .map(width => `${baseUrl}?w=${width}&fit=crop&q=80&fm=webp ${width}w`)
+    .join(', ');
+};
+
 const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
   const [imageLoadingStates, setImageLoadingStates] = useState<Record<string, boolean>>({});
   const [imageErrorStates, setImageErrorStates] = useState<Record<string, boolean>>({});
@@ -157,6 +168,8 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, loading }) => {
                     {!hasImageError && (
                       <img
                         src={image.url}
+                        srcSet={generateSrcSet(image.url)}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                         alt={image.title}
                         className={`w-full h-auto object-cover transition-all duration-700 ${
                           isImageLoading ? 'opacity-0' : 'opacity-100'
